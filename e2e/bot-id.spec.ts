@@ -4,7 +4,7 @@ test("clicking Check on Server shows a BotId response", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: /check on server/i }).click();
   
-  const pre = page.locator("pre");
+  const pre = page.getByTestId("botid-response");
   await expect(pre).toBeVisible();
   
   const text = await pre.innerText();

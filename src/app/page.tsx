@@ -72,7 +72,7 @@ export default function Home() {
               {loading ? "Checking..." : "Check on Server"}
             </button>
             {result && (
-              <pre className="font-mono text-sm text-zinc-700 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 rounded-lg p-4 overflow-auto">
+              <pre data-testid="botid-response" className="font-mono text-sm text-zinc-700 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 rounded-lg p-4 overflow-auto">
                 {JSON.stringify(result, null, 2)}
               </pre>
             )}
