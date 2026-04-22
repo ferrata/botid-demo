@@ -1,11 +1,26 @@
 "use client";
 
 import Image from "next/image";
+import { Check, Copy } from "lucide-react";
 import { useState } from "react";
+
+function useOrigin() {
+  if (typeof window === "undefined") return "";
+  return window.location.origin;
+}
 
 export default function Home() {
   const [result, setResult] = useState<object | null>(null);
   const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const origin = useOrigin();
+
+  function handleCopy(text: string) {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }
 
   async function handleLogin() {
     setLoading(true);
@@ -33,9 +48,19 @@ export default function Home() {
             <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
               BotId Demo
             </h1>
-            <p className="max-w-sm text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-              Click the button.
+            <p className="text-lg leading-8 text-zinc-600 dark:text-zinc-400">
+              Click the button.<br/>Or run the following from the root of the project:
             </p>
+            <div className="max-w-2xl flex items-center justify-between gap-3 font-mono text-sm text-zinc-700 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 rounded-lg px-4 py-3">
+              <span>{`BASE_URL=${origin} npx playwright test`}</span>
+              <button
+                onClick={() => handleCopy(`BASE_URL=${origin} npx playwright test`)}
+                className="shrink-0 text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors"
+                aria-label="Copy to clipboard"
+              >
+                {copied ? <Check size={16} /> : <Copy size={16} />}
+              </button>
+            </div>
           </div>
           <div className="flex items-start gap-6 text-base font-medium">
             <button
